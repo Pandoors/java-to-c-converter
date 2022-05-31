@@ -28,5 +28,7 @@ expr: expr '*' expr
 ID: [a-z][a-zA-Z0-9_]*;
 NUM: '0' | '-'?[1-9][0-9]*;
 INT_TYPE: 'INT';
-COMMENT: '--' ~[\r\n]* -> skip;
+COMMENT: '//' ~[\r\n]* -> skip;
+COMMENT_LONG: '/*' ~[*/]* -> skip;
+
 WS: [ \t\n]+ -> skip;
