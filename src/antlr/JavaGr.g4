@@ -10,13 +10,11 @@ package antlr;
 //start symbol
 //tokens
 NUMBER: [0-9];
-CHARACTER: [a-zA-Z];
 STRING_VAL: '"'[.]*'"';
 CHAR_VAL: '\''[.]'\'';
 INT_VAL: [1-9][0-9]*;
 FLOAT_VAL: [+-]?([0-9]*[.])?[0-9]+'f';
 DOUBLE_VAL:  [+-]?([0-9]*[.])?[0-9]+;
-//ANY_SYMBOL: .;
 DO_: 'do';
 FLOAT: 'float';
 INT: 'int';
@@ -139,7 +137,7 @@ math_expr: math_expr math_symbol math_expr
 declaration: datatype IDENTIFIER(COMMA IDENTIFIER)*;
 
 assignment: numeric_type IDENTIFIER EQUAL math_expr
-| CHAR IDENTIFIER EQUAL CHARACTER
+| CHAR IDENTIFIER EQUAL CHAR_VAL
 | STRING IDENTIFIER EQUAL STRING_VAL
 | BOOL IDENTIFIER EQUAL bool_val;
 
