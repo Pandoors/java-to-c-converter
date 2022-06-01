@@ -3,9 +3,9 @@ grammar JavaGr;
 // -no-listener
 // nieterminale z małej litery, tokeny all capital / One calpital first
 
-@header {
-package antlr;
-}
+//@header {
+//package antlr;
+//}
 
 //start symbol
 //tokens
@@ -61,6 +61,7 @@ AND: '&&';
 VOID: 'void';
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]*;
 WS   : [ \t\r\n]+ -> skip;
+EOF: '<EOF>';
 prog: package (import_op)* class EOF;
 
 numeric_type: INT
