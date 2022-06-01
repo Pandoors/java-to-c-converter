@@ -81,7 +81,7 @@ num_val: INT_VAL
 | FLOAT_VAL
 | IDENTIFIER;
 
-declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (datatype IDENTIFIER | assignment)  SEMICOLON;
+declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (declaration | assignment)  SEMICOLON;
 
 input_vars: datatype IDENTIFIER (COMMA datatype IDENTIFIER)*;
 
