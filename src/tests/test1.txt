@@ -1,6 +1,6 @@
 package abc;
 
-import String;
+import String.debil;
 
 public class Klasa {
 
