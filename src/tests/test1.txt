@@ -1,11 +1,20 @@
+
 package abc;
 
-public class Klasa{
+public class Klasa {
 
-public int fun(int y, int z){
-float x = 12f;
-string x = "3";
-char c = '3';
-}
+    private int pryw;
+
+    public int fun(int y, int z) {
+
+        for (int i = 0; i < 10; i++) {
+            x++;
+        }
+        return x;
+    }
+
+    private static string fun2(int x) {
+
+    }
 
 }
