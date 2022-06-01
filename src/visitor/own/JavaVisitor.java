@@ -1,7 +1,9 @@
 package visitor.own;
 
+import com.sun.source.tree.IdentifierTree;
 import org.antlr.v4.misc.Graph;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import visitor.JavaGrBaseVisitor;
 import visitor.JavaGrParser;
 
@@ -13,27 +15,27 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         StringBuilder sb = new StringBuilder();
         sb.append(visitPackage(ctx.package_()));
+
         for (JavaGrParser.Import_opContext ip : ctx.import_op()) {
             sb.append(visitImport_op(ip));
         }
-
 
         return sb.toString();
     }
 
     @Override
     public String visitNumeric_type(JavaGrParser.Numeric_typeContext ctx) {
-        return "asdfg";
+        return "";
     }
 
     @Override
     public String visitText_type(JavaGrParser.Text_typeContext ctx) {
-        return "asdfg";
+        return "";
     }
 
     @Override
     public String visitDatatype(JavaGrParser.DatatypeContext ctx) {
-        return "asdfg";
+        return "";
     }
 
     @Override
@@ -225,13 +227,18 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     @Override
     public String visitImport_op(JavaGrParser.Import_opContext ctx) {
         StringBuilder sb = new StringBuilder();
+        boolean first = false;
+        sb.append("#include").append("<");
+        for (TerminalNode tn : ctx.IDENTIFIER()) {
+            if (!first) {
+                sb.append(tn);
+            } else {
+                sb.append("/").append(tn);
+            }
+            first = true;
 
-        if (ctx.children.size() == 3) {
-            sb.append("#include ")
-                    .append(ctx.children.get(1))
-                    .append(ctx.children.get(2));
         }
 
-        return sb.toString();
+        return sb.append(">").append("\n").toString();
     }
 }

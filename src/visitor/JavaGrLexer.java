@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bartek/IdeaProjects/java-to-c-converter/src/antlr\JavaGr.g4 by ANTLR 4.10.1
+// Generated from /Users/bartosz/IdeaProjects/java-to-c-converter/src/antlr/JavaGr.g4 by ANTLR 4.10.1
 package visitor;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

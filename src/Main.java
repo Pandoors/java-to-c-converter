@@ -8,10 +8,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        // write your code here
+
         CharStream in = CharStreams.fromFileName("./src/tests/test1.txt");
-        JavaGrLexer lexer = new JavaGrLexer(in);  //create a lexer object
-        CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
+        JavaGrLexer lexer = new JavaGrLexer(in);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaGrParser parser = new JavaGrParser(tokens);
 
         String str = new JavaVisitor().visit(parser.prog());
