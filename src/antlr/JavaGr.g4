@@ -8,13 +8,9 @@ package antlr;
 }
 
 //start symbol
-
-prog: package (import_op)* class EOF;
-
 //tokens
 NUMBER: [0-9];
 CHARACTER: [a-zA-Z];
-IDENTIFIER: [a-zA-Z][a-zA-Z0-9]+;
 STRING_VAL: '"'[.]*'"';
 CHAR_VAL: '\''[.]'\'';
 INT_VAL: [1-9][0-9]*;
@@ -56,7 +52,6 @@ FOR: 'for';
 WHILE: 'while';
 SEMICOLON: ';';
 COMMA: ',';
-NEWLINE: '\n';
 IMPORT: 'import';
 PACKAGE: 'package';
 RETURN: 'return';
@@ -65,6 +60,10 @@ PROTECTED_NEW_VAR: 'protected';
 STATIC_VAR: 'static';
 OR: '||';
 AND: '&&';
+VOID: 'void';
+IDENTIFIER: [a-zA-Z][a-zA-Z0-9]*;
+WS   : [ \t\r\n]+ -> skip;
+prog: package (import_op)* class EOF;
 
 numeric_type: INT
 | FLOAT
@@ -85,13 +84,13 @@ num_val: INT_VAL
 | FLOAT_VAL
 | IDENTIFIER;
 
-declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype STRING SEMICOLON;
+declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype IDENTIFIER SEMICOLON;
 
-input_vars: (datatype IDENTIFIER) (COMMA datatype IDENTIFIER)*;
+input_vars: datatype IDENTIFIER (COMMA datatype IDENTIFIER)*;
 
-function_in: BRACKET_L input_vars BRACKET_R;
+function_in: BRACKET_L input_vars? BRACKET_R;
 
-function_to_ret: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype STRING function_in;
+function_to_ret: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype IDENTIFIER function_in;
 
 return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
 
@@ -107,13 +106,13 @@ instruction: declaration SEMICOLON
 | for_loop
 | return_statement SEMICOLON;
 
-instruction_general: (instruction SEMICOLON NEWLINE | COMMENT)*;
+instruction_general: (instruction | COMMENT)*;
 
 function_body: PARENT_L instruction_general PARENT_R;
 
-function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype STRING function_in function_body ;
+function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (datatype | VOID ) IDENTIFIER function_in function_body ;
 
-class: PUBLIC CLASS PARENT_L  (declaration_var | function)* PARENT_R;
+class: PUBLIC CLASS IDENTIFIER PARENT_L  (declaration_var | function)* PARENT_R;
 
 math_symbol: ADD
 | SUBTRACT
@@ -141,8 +140,8 @@ declaration: datatype IDENTIFIER(COMMA IDENTIFIER)*;
 
 assignment: numeric_type IDENTIFIER EQUAL math_expr
 | CHAR IDENTIFIER EQUAL CHARACTER
-| STRING EQUAL STRING_VAL
-| BOOL EQUAL bool_val;
+| STRING IDENTIFIER EQUAL STRING_VAL
+| BOOL IDENTIFIER EQUAL bool_val;
 
 add_double: ADD ADD;
 
@@ -175,6 +174,6 @@ do_while_loop: DO_ PARENT_L instruction_general PARENT_R WHILE logic_condition;
 
 for_loop: FOR BRACKET_L assignment SEMICOLON comparison SEMICOLON modification BRACKET_R PARENT_L instruction_general PARENT_R;
 
-package: PACKAGE STRING SEMICOLON;
+package: PACKAGE IDENTIFIER SEMICOLON;
 
-import_op: IMPORT STRING SEMICOLON;
+import_op: IMPORT IDENTIFIER SEMICOLON;

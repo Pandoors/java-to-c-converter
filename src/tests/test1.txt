@@ -1,7 +1,7 @@
 package abc;
 
-public Klasa{
-public void fun(){
-int x=7;
+public class Klasa{
+public int fun(){
+int x;
 }
 }
