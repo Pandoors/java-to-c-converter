@@ -9,8 +9,8 @@ grammar JavaGr;
 
 //start symbol
 //tokens
-STRING_VAL: '"'[.]*'"';
-CHAR_VAL: '\''[.]'\'';
+STRING_VAL: '"' ('\\' ["\\] | ~["\\\r\n])* '"' ;
+CHAR_VAL: '\'' ('\\' ["\\] | ~["\\\r\n])* '\'' ;
 INT_VAL: [1-9][0-9]*;
 FLOAT_VAL: [+-]?([0-9]*[.])?[0-9]+'f';
 DOUBLE_VAL:  [+-]?([0-9]*[.])?[0-9]+;

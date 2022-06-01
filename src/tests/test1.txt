@@ -3,14 +3,9 @@ package abc;
 public class Klasa{
 
 public int fun(int y, int z){
-int x=23;
-}
-
-public void fun2(boolean x){
-while(x == 1){
-x="aaa";
-}
-
+float x = 12f;
+string x = "3";
+char c = '3';
 }
 
 }
