@@ -61,8 +61,7 @@ AND: '&&';
 VOID: 'void';
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]*;
 WS   : [ \t\r\n]+ -> skip;
-EOF: '<EOF>';
-prog: package (import_op)* class EOF;
+prog: (package (import_op)* class)?;
 
 numeric_type: INT
 | FLOAT

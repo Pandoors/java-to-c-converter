@@ -1,7 +1,16 @@
 package abc;
 
 public class Klasa{
-public int fun(){
-int x;
+
+public int fun(int y, int z){
+int x=23;
 }
+
+public void fun2(boolean x){
+while(x == true){
+x=false;
+}
+
+}
+
 }
