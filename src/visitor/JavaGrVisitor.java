@@ -1,7 +1,6 @@
 // Generated from /Users/bartosz/IdeaProjects/java-to-c-converter/src/antlr/JavaGr.g4 by ANTLR 4.10.1
 package visitor;
 
-package antlr;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
