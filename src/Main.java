@@ -15,9 +15,10 @@ public class Main {
         JavaGrParser parser = new JavaGrParser(tokens);
 
         String str = new JavaVisitor().visit(parser.prog());
-        System.out.println(parser.prog());
         System.out.println(str);
 
     }
+
+
 
 }
