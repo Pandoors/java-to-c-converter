@@ -1,4 +1,4 @@
-grammar Expr;
+grammar JavaGr;
 
 // -no-listener
 // nieterminale z małej litery, tokeny all capital / One calpital first
@@ -14,13 +14,14 @@ prog: package (import_op)* class EOF;
 //tokens
 NUMBER: [0-9];
 CHARACTER: [a-zA-Z];
-IDENTIFIER: CHARACTER[CHARACTER|NUMBER]+;
+IDENTIFIER: [a-zA-Z][a-zA-Z0-9]+;
 STRING_VAL: '"'[.]*'"';
 CHAR_VAL: '\''[.]'\'';
 INT_VAL: [1-9][0-9]*;
 FLOAT_VAL: [+-]?([0-9]*[.])?[0-9]+'f';
 DOUBLE_VAL:  [+-]?([0-9]*[.])?[0-9]+;
-ANY_SYMBOL: .;
+//ANY_SYMBOL: .;
+DO_: 'do';
 FLOAT: 'float';
 INT: 'int';
 DOUBLE: 'double';
@@ -59,7 +60,8 @@ NEWLINE: '\n';
 IMPORT: 'import';
 PACKAGE: 'package';
 RETURN: 'return';
-TYPE_NEW_VAR: ['public' | 'private' | 'protected' ];
+PRIVATE_NEW_VAR: 'private';
+PROTECTED_NEW_VAR: 'protected';
 STATIC_VAR: 'static';
 OR: '||';
 AND: '&&';
@@ -83,13 +85,13 @@ num_val: INT_VAL
 | FLOAT_VAL
 | IDENTIFIER;
 
-declaration_var: TYPE_NEW_VAR STATIC? datatype STRING SEMICOLON;
+declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype STRING SEMICOLON;
 
 input_vars: (datatype IDENTIFIER) (COMMA datatype IDENTIFIER)*;
 
 function_in: BRACKET_L input_vars BRACKET_R;
 
-function_to_ret: TYPE_NEW_VAR STATIC? datatype STRING function_in;
+function_to_ret: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype STRING function_in;
 
 return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
 
@@ -109,7 +111,7 @@ instruction_general: (instruction SEMICOLON NEWLINE | COMMENT)*;
 
 function_body: PARENT_L instruction_general PARENT_R;
 
-function: TYPE_NEW_VAR STATIC? datatype STRING function_in function_body ;
+function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype STRING function_in function_body ;
 
 class: PUBLIC CLASS PARENT_L  (declaration_var | function)* PARENT_R;
 
@@ -135,7 +137,7 @@ math_expr: math_expr math_symbol math_expr
 | num_val
 | BRACKET_L math_expr BRACKET_R;
 
-declaration: DATATYPE IDENTIFIER(COMMA IDENTIFIER)*;
+declaration: datatype IDENTIFIER(COMMA IDENTIFIER)*;
 
 assignment: numeric_type IDENTIFIER EQUAL math_expr
 | CHAR IDENTIFIER EQUAL CHARACTER
@@ -169,7 +171,7 @@ if_statement: IF logic_condition PARENT_L instruction_general PARENT_R;
 
 while_loop: WHILE logic_condition PARENT_L instruction_general PARENT_R;
 
-do_while_loop: DO PARENT_L instruction_general PARENT_R WHILE logic_condition;
+do_while_loop: DO_ PARENT_L instruction_general PARENT_R WHILE logic_condition;
 
 for_loop: FOR BRACKET_L assignment SEMICOLON comparison SEMICOLON modification BRACKET_R PARENT_L instruction_general PARENT_R;
 
