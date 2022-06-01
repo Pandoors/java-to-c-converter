@@ -127,7 +127,8 @@ math_modification: add_equals
 | subtract_equals
 | multiply_equals
 | divide_equals
-| modulo_equals;
+| modulo_equals
+| EQUAL;
 
 math_expr: math_expr math_symbol math_expr
 | num_val
@@ -142,13 +143,15 @@ assignment: numeric_type IDENTIFIER EQUAL math_expr
 
 add_double: ADD ADD;
 
+equal_double: EQUAL  EQUAL;
+
 subtract_double: SUBTRACT SUBTRACT;
 
 modification: IDENTIFIER math_modification math_expr
 | IDENTIFIER add_double
 | IDENTIFIER subtract_double;
 
-comparator: EQUAL
+comparator: equal_double
 | NOT_EQUAL
 | GREATER
 | LESS

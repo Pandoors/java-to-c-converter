@@ -1,5 +1,4 @@
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 import visitor.JavaGrLexer;
 import visitor.JavaGrParser;
 import visitor.own.JavaVisitor;

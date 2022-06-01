@@ -7,8 +7,8 @@ int x=23;
 }
 
 public void fun2(boolean x){
-while(x == true){
-x=false;
+while(x == 1){
+x="aaa";
 }
 
 }
