@@ -9,7 +9,6 @@ grammar JavaGr;
 
 //start symbol
 //tokens
-NUMBER: [0-9];
 STRING_VAL: '"'[.]*'"';
 CHAR_VAL: '\''[.]'\'';
 INT_VAL: [1-9][0-9]*;
