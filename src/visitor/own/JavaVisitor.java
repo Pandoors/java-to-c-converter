@@ -214,7 +214,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitElif_statement(JavaGrParser.Elif_statementContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        return sb.toString();
     }
 
 
@@ -498,12 +500,31 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitLogic_condition(JavaGrParser.Logic_conditionContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.BRACKET_L());
+        if(ctx.logic_statement().size() == 1) {
+            sb.append(visitLogic_statement(ctx.logic_statement().get(0)));
+        } else if(ctx.logic_statement().size() > 1){
+            for(int i=0; i < ctx.logic_operator().size(); i++){
+                sb.append(ctx.logic_operator().get(i));
+                sb.append(" " + ctx.logic_statement().get(i));
+            }
+        }
+        sb.append(ctx.BRACKET_R());
+        return sb.toString();
     }
 
     @Override
     public String visitIf_statement(JavaGrParser.If_statementContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.IF());
+        sb.append(visitLogic_condition(ctx.logic_condition()));
+        sb.append((ctx.PARENT_L()));
+        sb.append(visitInstruction_general(ctx.instruction_general()));
+        sb.append(ctx.PARENT_R());
+        return sb.toString();
     }
 
     @Override
