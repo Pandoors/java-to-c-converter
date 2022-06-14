@@ -8,6 +8,8 @@ import org.stringtemplate.v4.compiler.Bytecode;
 import visitor.JavaGrBaseVisitor;
 import visitor.JavaGrParser;
 
+import javax.print.DocFlavor;
+
 public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
 
@@ -80,7 +82,16 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitBool_val(JavaGrParser.Bool_valContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if (ctx.TRUE() != null){
+            sb.append(ctx.TRUE());
+        } else if(ctx.FALSE() != null){
+            sb.append(ctx.FALSE());
+        }
+
+
+        return sb.toString();
     }
 
 
