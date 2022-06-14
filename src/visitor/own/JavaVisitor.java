@@ -53,7 +53,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitDatatype(JavaGrParser.DatatypeContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        if(ctx.BOOL() != null) sb.append(ctx.BOOL());
+        if (ctx.BOOL() != null) sb.append(ctx.BOOL());
         else if (ctx.numeric_type() != null) sb.append(visitNumeric_type(ctx.numeric_type()));
         else if (ctx.text_type() != null) sb.append(visitText_type(ctx.text_type()));
         return sb.toString();
@@ -63,7 +63,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitBool_val(JavaGrParser.Bool_valContext ctx) {
         return "";
     }
-
 
 
     @Override
@@ -99,7 +98,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
             }
             sb.append(ctx.IDENTIFIER());
         }
-    return sb.toString();
+        return sb.toString();
 
     }
 
@@ -124,14 +123,41 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     }
 
+    //input_vars: datatype IDENTIFIER (COMMA datatype IDENTIFIER)*;
     @Override
     public String visitInput_vars(JavaGrParser.Input_varsContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if (ctx.datatype().size() == 1) {
+            sb.append(visitDatatype(ctx.datatype().get(0)));
+            sb.append(ctx.IDENTIFIER());
+        } else if (ctx.datatype().size() > 1) {
+
+            sb.append(visitDatatype(ctx.datatype().get(0)));
+            sb.append(ctx.IDENTIFIER());
+
+
+
+        }
+
+
+        return sb.toString();
     }
 
+    //function_in: BRACKET_L input_vars? BRACKET_R;
     @Override
     public String visitFunction_in(JavaGrParser.Function_inContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.BRACKET_L());
+
+        if (ctx.input_vars() != null) {
+            sb.append(visitInput_vars(ctx.input_vars()));
+        }
+
+        sb.append(ctx.BRACKET_R());
+
+        return sb.toString();
     }
 
     @Override
@@ -164,9 +190,30 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return "";
     }
 
+    //function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (datatype | VOID ) IDENTIFIER function_in function_body ;
     @Override
     public String visitFunction(JavaGrParser.FunctionContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if (ctx.datatype() != null) {
+            sb.append(visitDatatype(ctx.datatype()));
+        } else if (ctx.VOID() != null) {
+            sb.append(ctx.VOID());
+        }
+
+        if (ctx.IDENTIFIER() != null) {
+            sb.append(ctx.IDENTIFIER());
+        }
+
+        if (ctx.function_in() != null) {
+            sb.append(visitFunction_in(ctx.function_in()));
+        }
+
+        if (ctx.function_body() != null) {
+            sb.append(visitFunction_body(ctx.function_body()));
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -268,12 +315,12 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         sb.append(visitDatatype(ctx.datatype())+ " ");
         sb.append(ctx.IDENTIFIER());
-        for(JavaGrParser.Comma_identifierContext ct: ctx.comma_identifier()){
+        for (JavaGrParser.Comma_identifierContext ct : ctx.comma_identifier()) {
             sb.append(ct.COMMA()+ " ");
             sb.append(ct.IDENTIFIER());
         }
 
-        return  sb.toString();
+        return sb.toString();
     }
 
     @Override
