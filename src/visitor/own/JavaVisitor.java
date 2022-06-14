@@ -490,12 +490,20 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitLogic_statement(JavaGrParser.Logic_statementContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        if(ctx.comparison() != null) sb.append(visitComparison(ctx.comparison()));
+        else if (ctx.bool_val() != null) sb.append(visitBool_val(ctx.bool_val()));
+
+        return sb.toString();
     }
 
     @Override
     public String visitLogic_operator(JavaGrParser.Logic_operatorContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        if(ctx.AND() != null) sb.append(ctx.AND());
+        else if(ctx.OR() != null) sb.append(ctx.OR());
+
+        return sb.toString();
     }
 
     @Override
@@ -507,8 +515,8 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
             sb.append(visitLogic_statement(ctx.logic_statement().get(0)));
         } else if(ctx.logic_statement().size() > 1){
             for(int i=0; i < ctx.logic_operator().size(); i++){
-                sb.append(ctx.logic_operator().get(i));
-                sb.append(" " + ctx.logic_statement().get(i));
+                sb.append(visitLogic_operator(ctx.logic_operator().get(i)));
+                sb.append(" " + visitLogic_statement(ctx.logic_statement().get(i)));
             }
         }
         sb.append(ctx.BRACKET_R());
