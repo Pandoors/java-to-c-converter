@@ -8,7 +8,8 @@ public class Klasa {
 
     private int x = ((2*7)/(11*28))-2 + 4 +5 -2;
     private int y = -2.2;
-
+    private string test1;
+    public string test2 = "testowy wyraz";
 
     public int fun(int y, int z) {
 

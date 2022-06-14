@@ -81,7 +81,7 @@ num_val: (ADD_ | SUBTRACT_)? INT_VAL
 | (ADD_ | SUBTRACT_)? FLOAT_VAL
 | (ADD_ | SUBTRACT_)? IDENTIFIER;
 
-declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (declaration | assignment)  SEMICOLON;
+declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR? STATIC_VAR? (declaration | assignment)  SEMICOLON;
 
 input_vars: datatype IDENTIFIER (COMMA datatype IDENTIFIER)*;
 

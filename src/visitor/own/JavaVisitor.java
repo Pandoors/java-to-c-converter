@@ -146,20 +146,35 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
         int s = 0;
         if (ctx.datatype().size() == 1) {
-            sb.append(visitDatatype(ctx.datatype().get(0)));
-            sb.append(ctx.IDENTIFIER().get(0));
+            if(visitDatatype(ctx.datatype().get(0)).equals("string")){
+                sb.append("char ");
+                sb.append(ctx.IDENTIFIER().get(0)+ "[]");
+            } else {
+                sb.append(visitDatatype(ctx.datatype().get(0)));
+                sb.append(ctx.IDENTIFIER().get(0));
+            }
         } else if (ctx.datatype().size() > 1) {
 
-            sb.append(visitDatatype(ctx.datatype().get(0)));
-            sb.append(ctx.IDENTIFIER().get(0));
+            if(visitDatatype(ctx.datatype().get(0)).equals("string")){
+                sb.append("char ");
+                sb.append(ctx.IDENTIFIER().get(0)+ "[]");
+            } else {
+                sb.append(visitDatatype(ctx.datatype().get(0)));
+                sb.append(ctx.IDENTIFIER().get(0));
+            }
 
             if ((ctx.COMMA().size() == ctx.IDENTIFIER().size() - 1) && (ctx.IDENTIFIER().size() - 1 == ctx.datatype().size() - 1)) {
                 s = ctx.COMMA().size();
 
                 for (int i = 0; i < s; i++) {
                     sb.append(ctx.COMMA().get(i));
-                    sb.append(visitDatatype(ctx.datatype().get(i + 1)));
-                    sb.append(ctx.IDENTIFIER().get(i + 1));
+                    if(visitDatatype(ctx.datatype().get(i + 1)).equals("string")){
+                        sb.append("char ");
+                        sb.append(ctx.IDENTIFIER().get(i+1)+ "[]");
+                    } else {
+                        sb.append(visitDatatype(ctx.datatype().get(i+1)));
+                        sb.append(ctx.IDENTIFIER().get(i+1));
+                    }
                 }
             }
 
@@ -338,8 +353,14 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitDeclaration(JavaGrParser.DeclarationContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(visitDatatype(ctx.datatype()) + " ");
-        sb.append(ctx.IDENTIFIER());
+        String datatype = visitDatatype(ctx.datatype());
+        if(datatype.equals("string")){
+            sb.append("char ");
+            sb.append(ctx.IDENTIFIER()+ "[]");
+        } else {
+            sb.append(datatype + " ");
+            sb.append(ctx.IDENTIFIER());
+        }
         for (JavaGrParser.Comma_identifierContext ct : ctx.comma_identifier()) {
             sb.append(ct.COMMA() + " ");
             sb.append(ct.IDENTIFIER());
@@ -363,8 +384,8 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
             sb.append(" " + ctx.EQUAL() + " ");
             sb.append(ctx.CHAR_VAL());
         } else if (ctx.STRING() != null) {
-            sb.append(ctx.STRING());
-            sb.append(" " + ctx.IDENTIFIER());
+            sb.append("char");
+            sb.append(" " + ctx.IDENTIFIER() + "[]");
             sb.append(" " + ctx.EQUAL() + " ");
             sb.append(ctx.STRING_VAL());
         } else if (ctx.BOOL() != null) {
