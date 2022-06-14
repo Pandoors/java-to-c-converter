@@ -148,18 +148,18 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
         int s = 0;
         if (ctx.datatype().size() == 1) {
-            if(visitDatatype(ctx.datatype().get(0)).equals("string")){
+            if (visitDatatype(ctx.datatype().get(0)).equals("string")) {
                 sb.append("char ");
-                sb.append(ctx.IDENTIFIER().get(0)+ "[]");
+                sb.append(ctx.IDENTIFIER().get(0) + "[]");
             } else {
                 sb.append(visitDatatype(ctx.datatype().get(0)));
                 sb.append(ctx.IDENTIFIER().get(0));
             }
         } else if (ctx.datatype().size() > 1) {
 
-            if(visitDatatype(ctx.datatype().get(0)).equals("string")){
+            if (visitDatatype(ctx.datatype().get(0)).equals("string")) {
                 sb.append("char ");
-                sb.append(ctx.IDENTIFIER().get(0)+ "[]");
+                sb.append(ctx.IDENTIFIER().get(0) + "[]");
             } else {
                 sb.append(visitDatatype(ctx.datatype().get(0)));
                 sb.append(ctx.IDENTIFIER().get(0));
@@ -170,12 +170,12 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
                 for (int i = 0; i < s; i++) {
                     sb.append(ctx.COMMA().get(i));
-                    if(visitDatatype(ctx.datatype().get(i + 1)).equals("string")){
+                    if (visitDatatype(ctx.datatype().get(i + 1)).equals("string")) {
                         sb.append("char ");
-                        sb.append(ctx.IDENTIFIER().get(i+1)+ "[]");
+                        sb.append(ctx.IDENTIFIER().get(i + 1) + "[]");
                     } else {
-                        sb.append(visitDatatype(ctx.datatype().get(i+1)));
-                        sb.append(ctx.IDENTIFIER().get(i+1));
+                        sb.append(visitDatatype(ctx.datatype().get(i + 1)));
+                        sb.append(ctx.IDENTIFIER().get(i + 1));
                     }
                 }
             }
@@ -256,7 +256,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     @Override
     public String visitInstruction_general(JavaGrParser.Instruction_generalContext ctx) {
         StringBuilder sb = new StringBuilder();
-        if(ctx.children != null) {
+        if (ctx.children != null) {
             for (ParseTree pt : ctx.children) {
 
                 if (pt instanceof JavaGrParser.InstructionContext) {
@@ -359,34 +359,87 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     }
 
+    //add_equals: ADD_ EQUAL;
     @Override
     public String visitAdd_equals(JavaGrParser.Add_equalsContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.ADD_());
+        sb.append(ctx.EQUAL());
+
+
+        return sb.toString();
     }
 
+    //subtract_equals: SUBTRACT_ EQUAL;
     @Override
     public String visitSubtract_equals(JavaGrParser.Subtract_equalsContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.SUBTRACT_());
+        sb.append(ctx.EQUAL());
+
+        return sb.toString();
+
     }
 
+    //multiply_equals: MULTIPLY EQUAL;
     @Override
     public String visitMultiply_equals(JavaGrParser.Multiply_equalsContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.MULTIPLY());
+
+        sb.append(ctx.EQUAL());
+
+        return sb.toString();
     }
 
+    //divide_equals: DIVIDE EQUAL;
     @Override
     public String visitDivide_equals(JavaGrParser.Divide_equalsContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.DIVIDE());
+        sb.append(ctx.EQUAL());
+
+        return sb.toString();
     }
 
+    //modulo_equals: MODULO EQUAL;
     @Override
     public String visitModulo_equals(JavaGrParser.Modulo_equalsContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(ctx.MODULO());
+        sb.append(ctx.EQUAL());
+
+        return sb.toString();
     }
 
+    //math_modification: add_equals
+//| subtract_equals
+//| multiply_equals
+//| divide_equals
+//| modulo_equals
+//| EQUAL;
     @Override
     public String visitMath_modification(JavaGrParser.Math_modificationContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        if (ctx.add_equals() != null) {
+            sb.append(visitAdd_equals(ctx.add_equals()));
+        } else if (ctx.subtract_equals() != null) {
+            sb.append(visitSubtract_equals(ctx.subtract_equals()));
+        } else if (ctx.multiply_equals() != null) {
+            sb.append(visitMultiply_equals(ctx.multiply_equals()));
+        } else if (ctx.divide_equals() != null) {
+            sb.append(visitDivide_equals(ctx.divide_equals()));
+        } else if (ctx.modulo_equals() != null) {
+            sb.append(visitModulo_equals(ctx.modulo_equals()));
+        } else if (ctx.EQUAL() != null) {
+            sb.append(ctx.EQUAL());
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -414,9 +467,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
 
         String datatype = visitDatatype(ctx.datatype());
-        if(datatype.equals("string")){
+        if (datatype.equals("string")) {
             sb.append("char ");
-            sb.append(ctx.IDENTIFIER()+ "[]");
+            sb.append(ctx.IDENTIFIER() + "[]");
         } else {
             sb.append(datatype + " ");
             sb.append(ctx.IDENTIFIER());
@@ -458,34 +511,91 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
+    //add_double: ADD_ ADD_;
     @Override
     public String visitAdd_double(JavaGrParser.Add_doubleContext ctx) {
-        return "";
-    }
+        StringBuilder sb = new StringBuilder();
 
+        sb.append(ctx.ADD_().get(0));
+        sb.append(ctx.ADD_().get(1));
+
+        return sb.toString();
+    }
+//equal_double: EQUAL  EQUAL;
     @Override
     public String visitEqual_double(JavaGrParser.Equal_doubleContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.EQUAL().get(0));
+        sb.append(ctx.EQUAL().get(1));
+
+
+        return sb.toString();
     }
 
+    //subtract_double: SUBTRACT_ SUBTRACT_;
     @Override
     public String visitSubtract_double(JavaGrParser.Subtract_doubleContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.SUBTRACT_().get(0));
+        sb.append(ctx.SUBTRACT_().get(1));
+
+
+        return sb.toString();
     }
 
+    //modification: IDENTIFIER math_modification math_expr
+//| IDENTIFIER add_double
+//| IDENTIFIER subtract_double;
     @Override
     public String visitModification(JavaGrParser.ModificationContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(ctx.IDENTIFIER());
+        if (ctx.math_modification() != null) {
+            sb.append(visitMath_modification(ctx.math_modification()));
+            sb.append(visitMath_expr(ctx.math_expr()));
+        } else if (ctx.add_double() != null) {
+            sb.append(visitAdd_double(ctx.add_double()));
+        } else if (ctx.subtract_double() != null) {
+            sb.append(visitSubtract_double(ctx.subtract_double()));
+        }
+
+        return sb.toString();
     }
+
 
     @Override
     public String visitComparator(JavaGrParser.ComparatorContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if (ctx.equal_double() != null) {
+            sb.append(visitEqual_double(ctx.equal_double()));
+        } else if (ctx.NOT_EQUAL() != null) {
+            sb.append(ctx.NOT_EQUAL());
+        } else if (ctx.GREATER() != null) {
+            sb.append(ctx.GREATER());
+        } else if (ctx.LESS() != null) {
+            sb.append(ctx.LESS());
+        } else if (ctx.GREATER_EQUAL() != null) {
+            sb.append(ctx.GREATER_EQUAL());
+        } else if (ctx.LESS_EQUAL() != null) {
+            sb.append(ctx.LESS_EQUAL());
+        }
+
+
+        return sb.toString();
     }
 
+    //comparison: num_val comparator num_val;
     @Override
     public String visitComparison(JavaGrParser.ComparisonContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(visitNum_val(ctx.num_val().get(0)));
+        sb.append(visitComparator(ctx.comparator()));
+        sb.append(visitNum_val(ctx.num_val().get(1)));
+
+        return sb.toString();
     }
 
     @Override
@@ -535,19 +645,53 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
+    //while_loop: WHILE logic_condition PARENT_L instruction_general PARENT_R;
     @Override
     public String visitWhile_loop(JavaGrParser.While_loopContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.WHILE());
+        sb.append(ctx.logic_condition());
+        sb.append(ctx.PARENT_L());
+        sb.append(ctx.instruction_general());
+        sb.append(ctx.PARENT_R());
+
+        return sb.toString();
     }
 
+    //do_while_loop: DO_ PARENT_L instruction_general PARENT_R WHILE logic_condition;
     @Override
     public String visitDo_while_loop(JavaGrParser.Do_while_loopContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.DO_());
+        sb.append(ctx.PARENT_L());
+        sb.append(visitInstruction_general(ctx.instruction_general()));
+        sb.append(ctx.PARENT_R());
+        sb.append(ctx.WHILE());
+        sb.append(visitLogic_condition(ctx.logic_condition()));
+
+        return sb.toString();
     }
 
+    //for_loop: FOR BRACKET_L assignment SEMICOLON comparison SEMICOLON modification BRACKET_R PARENT_L instruction_general PARENT_R;
     @Override
     public String visitFor_loop(JavaGrParser.For_loopContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.FOR());
+        sb.append(ctx.BRACKET_L());
+        sb.append(visitAssignment(ctx.assignment()));
+        sb.append(ctx.SEMICOLON().get(0));
+        sb.append(visitComparison(ctx.comparison()));
+        sb.append(ctx.SEMICOLON().get(1));
+        sb.append(visitModification(ctx.modification()));
+        sb.append(ctx.BRACKET_R());
+        sb.append(ctx.PARENT_L());
+        sb.append(visitInstruction_general(ctx.instruction_general()));
+        sb.append(ctx.PARENT_R());
+
+        return sb.toString();
     }
 
     @Override
