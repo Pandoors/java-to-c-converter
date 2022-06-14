@@ -65,6 +65,18 @@ public interface JavaGrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction_in(JavaGrParser.Function_inContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link JavaGrParser#input_vars_2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInput_vars_2(JavaGrParser.Input_vars_2Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaGrParser#function_in_2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_in_2(JavaGrParser.Function_in_2Context ctx);
+	/**
 	 * Visit a parse tree produced by {@link JavaGrParser#function_to_ret}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

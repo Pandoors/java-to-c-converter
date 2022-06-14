@@ -81,14 +81,16 @@ num_val: (ADD_ | SUBTRACT_)? INT_VAL
 | (ADD_ | SUBTRACT_)? FLOAT_VAL
 | (ADD_ | SUBTRACT_)? IDENTIFIER;
 
-declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR? STATIC_VAR? (declaration | assignment)  SEMICOLON;
+declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR)? STATIC_VAR? (declaration | assignment)  SEMICOLON;
 
 input_vars: datatype IDENTIFIER (COMMA datatype IDENTIFIER)*;
 
 function_in: BRACKET_L input_vars? BRACKET_R;
 
-function_to_ret: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype IDENTIFIER function_in;
-
+//function_to_ret: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? datatype IDENTIFIER function_in;
+input_vars_2:  IDENTIFIER (COMMA  IDENTIFIER)*;
+function_in_2: BRACKET_L input_vars_2? BRACKET_R;
+function_to_ret: IDENTIFIER function_in_2;
 return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
 
 elif_statement: if_statement ELSE elif_statement;

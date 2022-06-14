@@ -4,6 +4,7 @@ import com.sun.source.tree.IdentifierTree;
 import org.antlr.v4.misc.Graph;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.stringtemplate.v4.compiler.Bytecode;
 import visitor.JavaGrBaseVisitor;
 import visitor.JavaGrParser;
 
@@ -43,15 +44,16 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
 
     }
-//text_type: CHAR
+
+    //text_type: CHAR
 //| STRING;
     @Override
     public String visitText_type(JavaGrParser.Text_typeContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        if(ctx.CHAR() != null){
-             sb.append(ctx.CHAR());
-        } else if(ctx.STRING() != null){
+        if (ctx.CHAR() != null) {
+            sb.append(ctx.CHAR());
+        } else if (ctx.STRING() != null) {
             sb.append(ctx.STRING());
         }
 
@@ -215,19 +217,75 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return "";
     }
 
+
     @Override
     public String visitInstruction(JavaGrParser.InstructionContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if (ctx.declaration() != null) {
+            sb.append(visitDeclaration(ctx.declaration()));
+            sb.append(ctx.SEMICOLON());
+        } else if (ctx.assignment() != null) {
+            sb.append(visitAssignment(ctx.assignment()));
+            sb.append(ctx.SEMICOLON());
+        } else if (ctx.modification() != null) {
+            sb.append(visitModification(ctx.modification()));
+            sb.append(ctx.SEMICOLON());
+        } else if (ctx.if_statement() != null) {
+            sb.append(visitIf_statement(ctx.if_statement()));
+        } else if (ctx.elif_statement() != null) {
+            sb.append(visitElif_statement(ctx.elif_statement()));
+        } else if (ctx.while_loop() != null) {
+            sb.append(visitWhile_loop(ctx.while_loop()));
+        } else if (ctx.do_while_loop() != null) {
+            sb.append(visitDo_while_loop(ctx.do_while_loop()));
+        } else if (ctx.for_loop() != null) {
+            sb.append(visitFor_loop(ctx.for_loop()));
+        } else if (ctx.return_statement() != null) {
+            sb.append(visitReturn_statement(ctx.return_statement()));
+            sb.append(ctx.SEMICOLON());
+        }
+
+
+        return sb.toString();
     }
 
+    //instruction_general: (instruction | COMMENT)*;
     @Override
     public String visitInstruction_general(JavaGrParser.Instruction_generalContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        if(ctx.children != null) {
+            for (ParseTree pt : ctx.children) {
+
+                if (pt instanceof JavaGrParser.InstructionContext) {
+
+                    JavaGrParser.InstructionContext instructionContext = (JavaGrParser.InstructionContext) pt;
+                    sb.append(visitInstruction(instructionContext));
+
+                } else {
+                    TerminalNode tn = (TerminalNode) pt;
+                    sb.append(tn);
+                }
+
+            }
+        }
+
+        return sb.toString();
     }
 
+    //function_body: PARENT_L instruction_general PARENT_R;
     @Override
     public String visitFunction_body(JavaGrParser.Function_bodyContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.PARENT_L());
+
+        sb.append(visitInstruction_general(ctx.instruction_general()));
+
+        sb.append(ctx.PARENT_R());
+
+
+        return sb.toString();
     }
 
     //function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (datatype | VOID ) IDENTIFIER function_in function_body ;
