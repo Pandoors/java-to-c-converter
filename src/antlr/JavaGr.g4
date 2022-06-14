@@ -12,8 +12,8 @@ grammar JavaGr;
 STRING_VAL: '"' ('\\' ["\\] | ~["\\\r\n])* '"' ;
 CHAR_VAL: '\'' ('\\' ["\\] | ~['\\\r\n]) '\'' ;
 INT_VAL: [1-9][0-9]*;
-FLOAT_VAL: [+-]?([0-9]*[.])?[0-9]+'f';
-DOUBLE_VAL:  [+-]?([0-9]*[.])?[0-9]+;
+FLOAT_VAL: ([0-9]*[.])?[0-9]+'f';
+DOUBLE_VAL:  ([0-9]*[.])?[0-9]+;
 DO_: 'do';
 FLOAT: 'float';
 INT: 'int';
@@ -37,8 +37,8 @@ SQ_BRACKET_L: '[';
 SQ_BRACKET_R: ']';
 PARENT_L: '{';
 PARENT_R: '}';
-ADD: '+';
-SUBTRACT: '-';
+ADD_: '+';
+SUBTRACT_: '-';
 MULTIPLY: '*';
 DIVIDE: '/';
 MODULO: '%';
@@ -76,10 +76,10 @@ datatype: numeric_type
 bool_val: TRUE
 | FALSE;
 
-num_val: INT_VAL
-| DOUBLE_VAL
-| FLOAT_VAL
-| IDENTIFIER;
+num_val: (ADD_ | SUBTRACT_)? INT_VAL
+| (ADD_ | SUBTRACT_)? DOUBLE_VAL
+| (ADD_ | SUBTRACT_)? FLOAT_VAL
+| (ADD_ | SUBTRACT_)? IDENTIFIER;
 
 declaration_var: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (declaration | assignment)  SEMICOLON;
 
@@ -113,14 +113,14 @@ content: declaration_var | function;
 
 class: PUBLIC CLASS IDENTIFIER PARENT_L  (content)* PARENT_R;
 
-math_symbol: ADD
-| SUBTRACT
+math_symbol: ADD_
+| SUBTRACT_
 | MULTIPLY
 | DIVIDE
 | MODULO;
 
-add_equals: ADD EQUAL;
-subtract_equals: SUBTRACT EQUAL;
+add_equals: ADD_ EQUAL;
+subtract_equals: SUBTRACT_ EQUAL;
 multiply_equals: MULTIPLY EQUAL;
 divide_equals: DIVIDE EQUAL;
 modulo_equals: MODULO EQUAL;
@@ -132,9 +132,10 @@ math_modification: add_equals
 | modulo_equals
 | EQUAL;
 
+
 math_expr: math_expr math_symbol math_expr
-| num_val
-| BRACKET_L math_expr BRACKET_R;
+| BRACKET_L math_expr BRACKET_R
+| num_val;
 
 comma_identifier: COMMA IDENTIFIER;
 
@@ -145,11 +146,11 @@ assignment: numeric_type IDENTIFIER EQUAL math_expr
 | STRING IDENTIFIER EQUAL STRING_VAL
 | BOOL IDENTIFIER EQUAL bool_val;
 
-add_double: ADD ADD;
+add_double: ADD_ ADD_;
 
 equal_double: EQUAL  EQUAL;
 
-subtract_double: SUBTRACT SUBTRACT;
+subtract_double: SUBTRACT_ SUBTRACT_;
 
 modification: IDENTIFIER math_modification math_expr
 | IDENTIFIER add_double

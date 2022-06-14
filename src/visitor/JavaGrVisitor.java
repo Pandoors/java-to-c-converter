@@ -167,6 +167,12 @@ public interface JavaGrVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMath_expr(JavaGrParser.Math_exprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link JavaGrParser#comma_identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComma_identifier(JavaGrParser.Comma_identifierContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link JavaGrParser#declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
