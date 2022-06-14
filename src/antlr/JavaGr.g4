@@ -136,7 +136,9 @@ math_expr: math_expr math_symbol math_expr
 | num_val
 | BRACKET_L math_expr BRACKET_R;
 
-declaration: datatype IDENTIFIER(COMMA IDENTIFIER)*;
+comma_identifier: COMMA IDENTIFIER;
+
+declaration: datatype IDENTIFIER(comma_identifier)*;
 
 assignment: numeric_type IDENTIFIER EQUAL math_expr
 | CHAR IDENTIFIER EQUAL CHAR_VAL

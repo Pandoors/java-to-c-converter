@@ -32,7 +32,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitNumeric_type(JavaGrParser.Numeric_typeContext ctx) {
-        return "";
     }
 
     @Override
@@ -42,7 +41,13 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitDatatype(JavaGrParser.DatatypeContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if(ctx.BOOL() != null) sb.append(ctx.BOOL());
+        else if (ctx.numeric_type() != null) sb.append(visitNumeric_type(ctx.numeric_type()));
+        else if (ctx.text_type() != null) sb.append(visitText_type(ctx.text_type()));
+
+        return sb.toString();
     }
 
     @Override
@@ -183,12 +188,14 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitDeclaration(JavaGrParser.DeclarationContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-
-
+        sb.append(visitDatatype(ctx.datatype()));
+        sb.append(ctx.IDENTIFIER());
+        for(JavaGrParser.Comma_identifierContext ct: ctx.comma_identifier()){
+            sb.append(ct.COMMA());
+            sb.append(ct.IDENTIFIER());
+        }
 
         return  sb.toString();
-
-
     }
 
     @Override
