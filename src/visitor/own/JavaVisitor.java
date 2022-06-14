@@ -43,19 +43,36 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
 
     }
-
+//text_type: CHAR
+//| STRING;
     @Override
     public String visitText_type(JavaGrParser.Text_typeContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        if(ctx.CHAR() != null){
+             sb.append(ctx.CHAR());
+        } else if(ctx.STRING() != null){
+            sb.append(ctx.STRING());
+        }
+
+
+        return sb.toString();
     }
 
+    //datatype: numeric_type
+//| text_type
+//| BOOL;
     @Override
     public String visitDatatype(JavaGrParser.DatatypeContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        if (ctx.BOOL() != null) sb.append(ctx.BOOL());
-        else if (ctx.numeric_type() != null) sb.append(visitNumeric_type(ctx.numeric_type()));
-        else if (ctx.text_type() != null) sb.append(visitText_type(ctx.text_type()));
+        if (ctx.BOOL() != null) {
+            sb.append(ctx.BOOL());
+        } else if (ctx.numeric_type() != null) {
+            sb.append(visitNumeric_type(ctx.numeric_type()));
+        } else if (ctx.text_type() != null) {
+            sb.append(visitText_type(ctx.text_type()));
+        }
         return sb.toString();
     }
 
@@ -127,16 +144,24 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     @Override
     public String visitInput_vars(JavaGrParser.Input_varsContext ctx) {
         StringBuilder sb = new StringBuilder();
-
+        int s = 0;
         if (ctx.datatype().size() == 1) {
             sb.append(visitDatatype(ctx.datatype().get(0)));
-            sb.append(ctx.IDENTIFIER());
+            sb.append(ctx.IDENTIFIER().get(0));
         } else if (ctx.datatype().size() > 1) {
 
             sb.append(visitDatatype(ctx.datatype().get(0)));
-            sb.append(ctx.IDENTIFIER());
+            sb.append(ctx.IDENTIFIER().get(0));
 
+            if ((ctx.COMMA().size() == ctx.IDENTIFIER().size() - 1) && (ctx.IDENTIFIER().size() - 1 == ctx.datatype().size() - 1)) {
+                s = ctx.COMMA().size();
 
+                for (int i = 0; i < s; i++) {
+                    sb.append(ctx.COMMA().get(i));
+                    sb.append(visitDatatype(ctx.datatype().get(i + 1)));
+                    sb.append(ctx.IDENTIFIER().get(i + 1));
+                }
+            }
 
         }
 
@@ -295,14 +320,14 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         if (ctx.math_expr().size() == 2) {
             sb.append(visitMath_expr(ctx.math_expr().get(0)));
-            sb.append(visitMath_symbol(ctx.math_symbol())+ " ");
+            sb.append(visitMath_symbol(ctx.math_symbol()) + " ");
             sb.append(visitMath_expr(ctx.math_expr().get(1)));
         } else if (ctx.num_val() != null) {
             sb.append(visitNum_val(ctx.num_val()) + " ");
         } else if (ctx.BRACKET_L() != null) {
-            sb.append(ctx.BRACKET_L()+ " ");
+            sb.append(ctx.BRACKET_L() + " ");
             sb.append(visitMath_expr(ctx.math_expr().get(0)));
-            sb.append(ctx.BRACKET_R()+ " ");
+            sb.append(ctx.BRACKET_R() + " ");
         }
 
 
@@ -313,10 +338,10 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitDeclaration(JavaGrParser.DeclarationContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(visitDatatype(ctx.datatype())+ " ");
+        sb.append(visitDatatype(ctx.datatype()) + " ");
         sb.append(ctx.IDENTIFIER());
         for (JavaGrParser.Comma_identifierContext ct : ctx.comma_identifier()) {
-            sb.append(ct.COMMA()+ " ");
+            sb.append(ct.COMMA() + " ");
             sb.append(ct.IDENTIFIER());
         }
 
@@ -330,22 +355,22 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         if (ctx.numeric_type() != null) {
             sb.append(visitNumeric_type(ctx.numeric_type()));
             sb.append(" " + ctx.IDENTIFIER());
-            sb.append(" " + ctx.EQUAL()+ " ");
+            sb.append(" " + ctx.EQUAL() + " ");
             sb.append(visitMath_expr(ctx.math_expr()));
         } else if (ctx.CHAR() != null) {
             sb.append(ctx.CHAR());
             sb.append(" " + ctx.IDENTIFIER());
-            sb.append(" " +ctx.EQUAL()+ " ");
+            sb.append(" " + ctx.EQUAL() + " ");
             sb.append(ctx.CHAR_VAL());
         } else if (ctx.STRING() != null) {
             sb.append(ctx.STRING());
             sb.append(" " + ctx.IDENTIFIER());
-            sb.append(" " +ctx.EQUAL()+ " ");
+            sb.append(" " + ctx.EQUAL() + " ");
             sb.append(ctx.STRING_VAL());
         } else if (ctx.BOOL() != null) {
             sb.append(ctx.BOOL());
             sb.append(" " + ctx.IDENTIFIER());
-            sb.append(" " +ctx.EQUAL()+ " ");
+            sb.append(" " + ctx.EQUAL() + " ");
             sb.append(visitBool_val(ctx.bool_val()));
         }
 
