@@ -20,7 +20,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         for (JavaGrParser.Import_opContext ip : ctx.import_op()) {
             sb.append(visitImport_op(ip));
         }
-        sb.append("using namespace std;");
+        sb.append("using namespace std;\n");
 
 
         //visiting class
@@ -40,7 +40,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         } else if (ctx.DOUBLE() != null) {
             sb.append(ctx.DOUBLE());
         }
-
         return sb.toString();
 
     }
@@ -57,7 +56,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         if(ctx.BOOL() != null) sb.append(ctx.BOOL());
         else if (ctx.numeric_type() != null) sb.append(visitNumeric_type(ctx.numeric_type()));
         else if (ctx.text_type() != null) sb.append(visitText_type(ctx.text_type()));
-
         return sb.toString();
     }
 
@@ -121,6 +119,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         }
 
         sb.append(ctx.SEMICOLON());
+        sb.append("\n");
         return sb.toString();
 
     }
@@ -249,14 +248,14 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         if (ctx.math_expr().size() == 2) {
             sb.append(visitMath_expr(ctx.math_expr().get(0)));
-            sb.append(visitMath_symbol(ctx.math_symbol()));
+            sb.append(visitMath_symbol(ctx.math_symbol())+ " ");
             sb.append(visitMath_expr(ctx.math_expr().get(1)));
         } else if (ctx.num_val() != null) {
-            sb.append(visitNum_val(ctx.num_val()));
+            sb.append(visitNum_val(ctx.num_val()) + " ");
         } else if (ctx.BRACKET_L() != null) {
-            sb.append(ctx.BRACKET_L());
+            sb.append(ctx.BRACKET_L()+ " ");
             sb.append(visitMath_expr(ctx.math_expr().get(0)));
-            sb.append(ctx.BRACKET_R());
+            sb.append(ctx.BRACKET_R()+ " ");
         }
 
 
@@ -267,10 +266,10 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitDeclaration(JavaGrParser.DeclarationContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(visitDatatype(ctx.datatype()));
+        sb.append(visitDatatype(ctx.datatype())+ " ");
         sb.append(ctx.IDENTIFIER());
         for(JavaGrParser.Comma_identifierContext ct: ctx.comma_identifier()){
-            sb.append(ct.COMMA());
+            sb.append(ct.COMMA()+ " ");
             sb.append(ct.IDENTIFIER());
         }
 
@@ -283,23 +282,23 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         if (ctx.numeric_type() != null) {
             sb.append(visitNumeric_type(ctx.numeric_type()));
-            sb.append(ctx.IDENTIFIER());
-            sb.append(ctx.EQUAL());
+            sb.append(" " + ctx.IDENTIFIER());
+            sb.append(" " + ctx.EQUAL()+ " ");
             sb.append(visitMath_expr(ctx.math_expr()));
         } else if (ctx.CHAR() != null) {
             sb.append(ctx.CHAR());
-            sb.append(ctx.IDENTIFIER());
-            sb.append(ctx.EQUAL());
+            sb.append(" " + ctx.IDENTIFIER());
+            sb.append(" " +ctx.EQUAL()+ " ");
             sb.append(ctx.CHAR_VAL());
         } else if (ctx.STRING() != null) {
             sb.append(ctx.STRING());
-            sb.append(ctx.IDENTIFIER());
-            sb.append(ctx.EQUAL());
+            sb.append(" " + ctx.IDENTIFIER());
+            sb.append(" " +ctx.EQUAL()+ " ");
             sb.append(ctx.STRING_VAL());
         } else if (ctx.BOOL() != null) {
             sb.append(ctx.BOOL());
-            sb.append(ctx.IDENTIFIER());
-            sb.append(ctx.EQUAL());
+            sb.append(" " + ctx.IDENTIFIER());
+            sb.append(" " +ctx.EQUAL()+ " ");
             sb.append(visitBool_val(ctx.bool_val()));
         }
 
