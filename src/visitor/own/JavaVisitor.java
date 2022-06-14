@@ -227,6 +227,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitElif_statement(JavaGrParser.Elif_statementContext ctx) {
         StringBuilder sb = new StringBuilder();
 
+        sb.append(visitIf_statement(ctx.if_statement()));
+        sb.append(ctx.ELSE());
+        sb.append(visitElif_statement(ctx.elif_statement()));
         return sb.toString();
     }
 
