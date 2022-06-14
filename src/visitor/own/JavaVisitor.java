@@ -14,11 +14,18 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitProg(JavaGrParser.ProgContext ctx) {
 
         StringBuilder sb = new StringBuilder();
+        //visiting packages
         sb.append(visitPackage(ctx.package_()));
-
+        //visiting imports
         for (JavaGrParser.Import_opContext ip : ctx.import_op()) {
             sb.append(visitImport_op(ip));
         }
+        sb.append("using namespace std;");
+
+
+        //visiting class
+        sb.append(visitClass(ctx.class_()));
+
 
         return sb.toString();
     }
@@ -50,7 +57,22 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitDeclaration_var(JavaGrParser.Declaration_varContext ctx) {
-        return "";
+
+        StringBuilder sb = new StringBuilder();
+
+        if (ctx.declaration() != null) {
+
+            sb.append(visitDeclaration(ctx.declaration()));
+
+        } else if (ctx.assignment() != null) {
+
+            sb.append(visitAssignment(ctx.assignment()));
+
+        }
+
+
+        return sb.toString();
+
     }
 
     @Override
@@ -100,7 +122,21 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitClass(JavaGrParser.ClassContext ctx) {
-        return "";
+
+        StringBuilder sb = new StringBuilder();
+
+
+        for (JavaGrParser.ContentContext ct : ctx.content()) {
+
+            if (ct.function() != null) {
+                sb.append(visitFunction(ct.function()));
+            } else if (ct.declaration_var() != null) {
+                sb.append(visitDeclaration_var(ct.declaration_var()));
+            }
+        }
+
+
+        return sb.toString();
     }
 
     @Override
@@ -145,7 +181,14 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     @Override
     public String visitDeclaration(JavaGrParser.DeclarationContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+
+
+
+        return  sb.toString();
+
+
     }
 
     @Override

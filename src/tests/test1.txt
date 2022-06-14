@@ -4,7 +4,7 @@ import String.def;
 import Integer;
 public class Klasa {
 
-    private int pryw;
+    private static int pryw;
 
     public int fun(int y, int z) {
 

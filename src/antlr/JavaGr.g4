@@ -109,7 +109,9 @@ function_body: PARENT_L instruction_general PARENT_R;
 
 function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (datatype | VOID ) IDENTIFIER function_in function_body ;
 
-class: PUBLIC CLASS IDENTIFIER PARENT_L  (declaration_var | function)* PARENT_R;
+content: declaration_var | function;
+
+class: PUBLIC CLASS IDENTIFIER PARENT_L  (content)* PARENT_R;
 
 math_symbol: ADD
 | SUBTRACT
