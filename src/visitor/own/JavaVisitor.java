@@ -226,13 +226,13 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         if (ctx.declaration() != null) {
             sb.append(visitDeclaration(ctx.declaration()));
-            sb.append(ctx.SEMICOLON());
+            sb.append(ctx.SEMICOLON() + "\n");
         } else if (ctx.assignment() != null) {
             sb.append(visitAssignment(ctx.assignment()));
-            sb.append(ctx.SEMICOLON());
+            sb.append(ctx.SEMICOLON() + "\n");
         } else if (ctx.modification() != null) {
             sb.append(visitModification(ctx.modification()));
-            sb.append(ctx.SEMICOLON());
+            sb.append(ctx.SEMICOLON() + "\n");
         } else if (ctx.if_statement() != null) {
             sb.append(visitIf_statement(ctx.if_statement()));
         } else if (ctx.elif_statement() != null) {
@@ -245,7 +245,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
             sb.append(visitFor_loop(ctx.for_loop()));
         } else if (ctx.return_statement() != null) {
             sb.append(visitReturn_statement(ctx.return_statement()));
-            sb.append(ctx.SEMICOLON());
+            sb.append(ctx.SEMICOLON() + "\n");
         }
 
 
@@ -280,11 +280,11 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitFunction_body(JavaGrParser.Function_bodyContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(ctx.PARENT_L());
+        sb.append(ctx.PARENT_L() + "\n");
 
         sb.append(visitInstruction_general(ctx.instruction_general()));
 
-        sb.append(ctx.PARENT_R());
+        sb.append(ctx.PARENT_R() + "\n");
 
 
         return sb.toString();
@@ -300,6 +300,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         } else if (ctx.VOID() != null) {
             sb.append(ctx.VOID());
         }
+        sb.append(" ");
 
         if (ctx.IDENTIFIER() != null) {
             sb.append(ctx.IDENTIFIER());
@@ -639,9 +640,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         sb.append(ctx.IF());
         sb.append(visitLogic_condition(ctx.logic_condition()));
-        sb.append((ctx.PARENT_L()));
+        sb.append((ctx.PARENT_L()) + "\n");
         sb.append(visitInstruction_general(ctx.instruction_general()));
-        sb.append(ctx.PARENT_R());
+        sb.append(ctx.PARENT_R() + "\n");
         return sb.toString();
     }
 
@@ -652,9 +653,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         sb.append(ctx.WHILE());
         sb.append(ctx.logic_condition());
-        sb.append(ctx.PARENT_L());
+        sb.append(ctx.PARENT_L() + "\n");
         sb.append(ctx.instruction_general());
-        sb.append(ctx.PARENT_R());
+        sb.append(ctx.PARENT_R() + "\n");
 
         return sb.toString();
     }
@@ -665,9 +666,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
 
         sb.append(ctx.DO_());
-        sb.append(ctx.PARENT_L());
+        sb.append(ctx.PARENT_L() + "\n");
         sb.append(visitInstruction_general(ctx.instruction_general()));
-        sb.append(ctx.PARENT_R());
+        sb.append(ctx.PARENT_R() + "\n");
         sb.append(ctx.WHILE());
         sb.append(visitLogic_condition(ctx.logic_condition()));
 
@@ -683,13 +684,13 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         sb.append(ctx.BRACKET_L());
         sb.append(visitAssignment(ctx.assignment()));
         sb.append(ctx.SEMICOLON().get(0));
-        sb.append(visitComparison(ctx.comparison()));
+        sb.append(" " + visitComparison(ctx.comparison()));
         sb.append(ctx.SEMICOLON().get(1));
-        sb.append(visitModification(ctx.modification()));
+        sb.append(" " + visitModification(ctx.modification()));
         sb.append(ctx.BRACKET_R());
-        sb.append(ctx.PARENT_L());
+        sb.append(ctx.PARENT_L() + "\n");
         sb.append(visitInstruction_general(ctx.instruction_general()));
-        sb.append(ctx.PARENT_R());
+        sb.append(ctx.PARENT_R() + "\n");
 
         return sb.toString();
     }
