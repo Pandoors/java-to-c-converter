@@ -84,9 +84,9 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitBool_val(JavaGrParser.Bool_valContext ctx) {
         StringBuilder sb = new StringBuilder();
 
-        if (ctx.TRUE() != null){
+        if (ctx.TRUE() != null) {
             sb.append(ctx.TRUE());
-        } else if(ctx.FALSE() != null){
+        } else if (ctx.FALSE() != null) {
             sb.append(ctx.FALSE());
         }
 
@@ -163,7 +163,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
                 sb.append("char ");
                 sb.append(ctx.IDENTIFIER().get(0) + "[]");
             } else {
-                sb.append(visitDatatype(ctx.datatype().get(0)));
+                sb.append(visitDatatype(ctx.datatype().get(0))).append(" ");
                 sb.append(ctx.IDENTIFIER().get(0));
             }
         } else if (ctx.datatype().size() > 1) {
@@ -172,7 +172,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
                 sb.append("char ");
                 sb.append(ctx.IDENTIFIER().get(0) + "[]");
             } else {
-                sb.append(visitDatatype(ctx.datatype().get(0)));
+                sb.append(visitDatatype(ctx.datatype().get(0))).append(" ");
                 sb.append(ctx.IDENTIFIER().get(0));
             }
 
@@ -185,7 +185,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
                         sb.append("char ");
                         sb.append(ctx.IDENTIFIER().get(i + 1) + "[]");
                     } else {
-                        sb.append(visitDatatype(ctx.datatype().get(i + 1)));
+                        sb.append(visitDatatype(ctx.datatype().get(i + 1))).append(" ");
                         sb.append(ctx.IDENTIFIER().get(i + 1));
                     }
                 }
@@ -213,14 +213,100 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
+    //function_to_ret: IDENTIFIER function_in_2;
     @Override
     public String visitFunction_to_ret(JavaGrParser.Function_to_retContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.IDENTIFIER());
+
+        sb.append(visitFunction_in_2(ctx.function_in_2()));
+        return sb.toString();
+    }
+
+
+    @Override
+    public String visitInput_vars_2(JavaGrParser.Input_vars_2Context ctx) {
+        StringBuilder sb = new StringBuilder();
+        int s = 0;
+        if (ctx.IDENTIFIER().size() == 1) {
+
+            sb.append(ctx.IDENTIFIER().get(0));
+
+        } else if (ctx.IDENTIFIER().size() > 1) {
+
+
+            sb.append(ctx.IDENTIFIER().get(0));
+
+
+            if ((ctx.COMMA().size() == ctx.IDENTIFIER().size() - 1)) {
+                s = ctx.COMMA().size();
+
+                for (int i = 0; i < s; i++) {
+                    sb.append(ctx.COMMA().get(i));
+                    sb.append(ctx.IDENTIFIER().get(i + 1));
+
+                }
+            }
+
+        }
+        return sb.toString();
+    }
+
+    //function_in_2: BRACKET_L input_vars_2? BRACKET_R;
+    @Override
+    public String visitFunction_in_2(JavaGrParser.Function_in_2Context ctx) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(ctx.BRACKET_L());
+
+        if (ctx.input_vars_2() != null) {
+            sb.append(visitInput_vars_2(ctx.input_vars_2()));
+        }
+
+        sb.append(ctx.BRACKET_R());
+
+        return sb.toString();
     }
 
     @Override
+    public String visitContent(JavaGrParser.ContentContext ctx) {
+        return super.visitContent(ctx);
+    }
+
+    @Override
+    public String visitComma_identifier(JavaGrParser.Comma_identifierContext ctx) {
+        return super.visitComma_identifier(ctx);
+    }
+
+    //return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
+    @Override
     public String visitReturn_statement(JavaGrParser.Return_statementContext ctx) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        for (ParseTree pt : ctx.children) {
+
+            if (pt instanceof JavaGrParser.Math_exprContext) {
+                JavaGrParser.Math_exprContext me = (JavaGrParser.Math_exprContext) pt;
+                sb.append(visitMath_expr(me));
+            } else if (pt instanceof JavaGrParser.Bool_valContext) {
+                JavaGrParser.Bool_valContext bv = (JavaGrParser.Bool_valContext) pt;
+                sb.append(visitBool_val(bv));
+            } else if (pt instanceof JavaGrParser.Function_to_retContext) {
+                JavaGrParser.Function_to_retContext fr = (JavaGrParser.Function_to_retContext) pt;
+                sb.append(visitFunction_to_ret(fr));
+            } else {
+                String x = pt.toString();
+                sb.append(pt);
+                if(x.equals("return")){
+                    sb.append(" ");
+                }
+
+            }
+
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -536,7 +622,8 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
         return sb.toString();
     }
-//equal_double: EQUAL  EQUAL;
+
+    //equal_double: EQUAL  EQUAL;
     @Override
     public String visitEqual_double(JavaGrParser.Equal_doubleContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -616,7 +703,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     @Override
     public String visitLogic_statement(JavaGrParser.Logic_statementContext ctx) {
         StringBuilder sb = new StringBuilder();
-        if(ctx.comparison() != null) sb.append(visitComparison(ctx.comparison()));
+        if (ctx.comparison() != null) sb.append(visitComparison(ctx.comparison()));
         else if (ctx.bool_val() != null) sb.append(visitBool_val(ctx.bool_val()));
 
         return sb.toString();
@@ -625,8 +712,8 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     @Override
     public String visitLogic_operator(JavaGrParser.Logic_operatorContext ctx) {
         StringBuilder sb = new StringBuilder();
-        if(ctx.AND() != null) sb.append(ctx.AND());
-        else if(ctx.OR() != null) sb.append(ctx.OR());
+        if (ctx.AND() != null) sb.append(ctx.AND());
+        else if (ctx.OR() != null) sb.append(ctx.OR());
 
         return sb.toString();
     }
@@ -636,10 +723,10 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
 
         sb.append(ctx.BRACKET_L());
-        if(ctx.logic_statement().size() == 1) {
+        if (ctx.logic_statement().size() == 1) {
             sb.append(visitLogic_statement(ctx.logic_statement().get(0)));
-        } else if(ctx.logic_statement().size() > 1){
-            for(int i=0; i < ctx.logic_operator().size(); i++){
+        } else if (ctx.logic_statement().size() > 1) {
+            for (int i = 0; i < ctx.logic_operator().size(); i++) {
                 sb.append(visitLogic_operator(ctx.logic_operator().get(i)));
                 sb.append(" " + visitLogic_statement(ctx.logic_statement().get(i)));
             }
