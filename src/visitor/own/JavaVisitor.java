@@ -296,6 +296,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitElif_statement(JavaGrParser.Elif_statementContext ctx) {
         StringBuilder sb = new StringBuilder();
 
+
         sb.append(visitIf_statement(ctx.if_statement()));
         sb.append(ctx.ELSE());
         sb.append(visitElif_statement(ctx.elif_statement()));
@@ -691,9 +692,10 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         if (ctx.logic_statement().size() == 1) {
             sb.append(visitLogic_statement(ctx.logic_statement().get(0)));
         } else if (ctx.logic_statement().size() > 1) {
+            sb.append(visitLogic_statement(ctx.logic_statement().get(0)));
             for (int i = 0; i < ctx.logic_operator().size(); i++) {
                 sb.append(visitLogic_operator(ctx.logic_operator().get(i)));
-                sb.append(" " + visitLogic_statement(ctx.logic_statement().get(i)));
+                sb.append(" " + visitLogic_statement(ctx.logic_statement().get(i+1)));
             }
         }
         sb.append(ctx.BRACKET_R());
