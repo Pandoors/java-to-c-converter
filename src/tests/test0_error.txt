@@ -1,12 +1,11 @@
 package abc;
 
-import String.def;
-import Integer;
+
 public class Klasa {
 
     public int x, y;
 
-    public int Main() {
+    public int Main {
         x = 1;
         y = 2;
 

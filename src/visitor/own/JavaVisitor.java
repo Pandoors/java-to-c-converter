@@ -324,6 +324,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
             sb.append(visitWhile_loop(ctx.while_loop()));
         } else if (ctx.do_while_loop() != null) {
             sb.append(visitDo_while_loop(ctx.do_while_loop()));
+            sb.append(ctx.SEMICOLON() + "\n");
         } else if (ctx.for_loop() != null) {
             sb.append(visitFor_loop(ctx.for_loop()));
         } else if (ctx.return_statement() != null) {
@@ -710,15 +711,15 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         sb.append(ctx.PARENT_R() + "\n");
         return sb.toString();
     }
-
+//while_loop: WHILE logic_condition PARENT_L instruction_general PARENT_R;
     @Override
     public String visitWhile_loop(JavaGrParser.While_loopContext ctx) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(ctx.WHILE());
-        sb.append(ctx.logic_condition());
+        sb.append(visitLogic_condition(ctx.logic_condition()));
         sb.append(ctx.PARENT_L() + "\n");
-        sb.append(ctx.instruction_general());
+        sb.append(visitInstruction_general(ctx.instruction_general()));
         sb.append(ctx.PARENT_R() + "\n");
 
         return sb.toString();

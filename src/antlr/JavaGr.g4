@@ -101,7 +101,7 @@ instruction: declaration SEMICOLON
 | if_statement
 | elif_statement
 | while_loop
-| do_while_loop
+| do_while_loop SEMICOLON
 | for_loop
 | return_statement SEMICOLON;
 

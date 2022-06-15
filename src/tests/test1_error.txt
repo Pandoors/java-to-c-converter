@@ -6,7 +6,7 @@ import Integer;
 public class Klasa {
 
     private string nazwa;
-
+        losowy ciag znakow generujacy blad
     public int Main() {
         x = 1;
         y = 2;
