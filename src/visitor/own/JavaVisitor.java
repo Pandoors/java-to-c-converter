@@ -519,17 +519,17 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitMath_modification(JavaGrParser.Math_modificationContext ctx) {
         StringBuilder sb = new StringBuilder();
         if (ctx.add_equals() != null) {
-            sb.append(visitAdd_equals(ctx.add_equals()));
+            sb.append(" " + visitAdd_equals(ctx.add_equals()));
         } else if (ctx.subtract_equals() != null) {
-            sb.append(visitSubtract_equals(ctx.subtract_equals()));
+            sb.append(" " + visitSubtract_equals(ctx.subtract_equals()));
         } else if (ctx.multiply_equals() != null) {
-            sb.append(visitMultiply_equals(ctx.multiply_equals()));
+            sb.append(" " + visitMultiply_equals(ctx.multiply_equals()));
         } else if (ctx.divide_equals() != null) {
-            sb.append(visitDivide_equals(ctx.divide_equals()));
+            sb.append(" " + visitDivide_equals(ctx.divide_equals()));
         } else if (ctx.modulo_equals() != null) {
-            sb.append(visitModulo_equals(ctx.modulo_equals()));
+            sb.append(" " + visitModulo_equals(ctx.modulo_equals()));
         } else if (ctx.EQUAL() != null) {
-            sb.append(ctx.EQUAL());
+            sb.append(" " + ctx.EQUAL() + " ");
         }
 
         return sb.toString();
@@ -686,8 +686,8 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     public String visitComparison(JavaGrParser.ComparisonContext ctx) {
         StringBuilder sb = new StringBuilder();
         sb.append(visitNum_val(ctx.num_val().get(0)));
-        sb.append(visitComparator(ctx.comparator()));
-        sb.append(visitNum_val(ctx.num_val().get(1)));
+        sb.append(" " + visitComparator(ctx.comparator()));
+        sb.append(" " + visitNum_val(ctx.num_val().get(1)) + " ");
 
         return sb.toString();
     }
