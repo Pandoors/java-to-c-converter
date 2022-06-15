@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-            System.out.println("Enter code file location: ");
+            System.out.println("Enter java code file location: ");
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(System.in));
 
