@@ -5,7 +5,8 @@ int ret = x % 1 ;
 return ret;
 }
 int Main(){
-//przykładowy komentarzdouble a;
+//przykładowy komentarz
+double a;
 a = 2.99 ;
 int test = a % 1 ;
 if(test < 0 || test > 10 ){

@@ -362,7 +362,11 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
                 } else {
                     TerminalNode tn = (TerminalNode) pt;
+                    String x = String.valueOf(tn);
                     sb.append(tn);
+                    if (x != null && x.contains("//")){
+                        sb.append("\n");
+                    }
                 }
 
             }
