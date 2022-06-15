@@ -269,15 +269,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    @Override
-    public String visitContent(JavaGrParser.ContentContext ctx) {
-        return super.visitContent(ctx);
-    }
 
-    @Override
-    public String visitComma_identifier(JavaGrParser.Comma_identifierContext ctx) {
-        return super.visitComma_identifier(ctx);
-    }
 
     //return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
     @Override
