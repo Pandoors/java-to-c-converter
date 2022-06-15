@@ -292,14 +292,26 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
+    //elif_statement: if_statement (ELSE if_statement)*;
     @Override
     public String visitElif_statement(JavaGrParser.Elif_statementContext ctx) {
         StringBuilder sb = new StringBuilder();
+        int s = 0;
+        sb.append(visitIf_statement(ctx.if_statement(0)));
+
+        if (ctx.ELSE() != null && ctx.ELSE().size() > 0) {
+            s = ctx.ELSE().size();
 
 
-        sb.append(visitIf_statement(ctx.if_statement()));
-        sb.append(ctx.ELSE());
-        sb.append(visitElif_statement(ctx.elif_statement()));
+            for (int i = 0; i < s; i++) {
+                sb.append(ctx.ELSE().get(i)).append(" ");
+                sb.append(visitIf_statement(ctx.if_statement(i + 1)));
+            }
+
+
+
+        }
+
         return sb.toString();
     }
 

@@ -1,0 +1,34 @@
+package abc;
+
+import stdio.h;
+
+
+public class Klasa{
+
+
+    public static int toInt(double x){
+
+        int ret = x % 1;
+        return ret;
+
+    }
+
+    private int Main(){
+
+        //przykładowy komentarz
+
+        double a;
+        a = 2.99;
+
+        int test = a % 1;
+
+        if( test < 0 || test > 10 ){
+            test++;
+        } else if (test > 0 && test < 10){
+            test--;
+        }
+
+        return 0;
+    }
+
+}

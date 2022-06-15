@@ -93,7 +93,8 @@ function_in_2: BRACKET_L input_vars_2? BRACKET_R;
 function_to_ret: IDENTIFIER function_in_2;
 return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
 
-elif_statement: if_statement ELSE elif_statement;
+elif_statement: if_statement (ELSE if_statement)*;
+
 
 instruction: declaration SEMICOLON
 | assignment SEMICOLON
