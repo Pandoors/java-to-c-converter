@@ -47,8 +47,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     }
 
-    //text_type: CHAR
-//| STRING;
+
     @Override
     public String visitText_type(JavaGrParser.Text_typeContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -63,9 +62,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //datatype: numeric_type
-//| text_type
-//| BOOL;
+
     @Override
     public String visitDatatype(JavaGrParser.DatatypeContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -153,7 +150,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     }
 
-    //input_vars: datatype IDENTIFIER (COMMA datatype IDENTIFIER)*;
     @Override
     public String visitInput_vars(JavaGrParser.Input_varsContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -197,7 +193,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //function_in: BRACKET_L input_vars? BRACKET_R;
     @Override
     public String visitFunction_in(JavaGrParser.Function_inContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -213,7 +208,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //function_to_ret: IDENTIFIER function_in_2;
     @Override
     public String visitFunction_to_ret(JavaGrParser.Function_to_retContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -253,7 +247,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //function_in_2: BRACKET_L input_vars_2? BRACKET_R;
     @Override
     public String visitFunction_in_2(JavaGrParser.Function_in_2Context ctx) {
         StringBuilder sb = new StringBuilder();
@@ -270,8 +263,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
     }
 
 
-
-    //return_statement: RETURN (IDENTIFIER | math_expr | bool_val | CHAR_VAL | STRING_VAL | function_to_ret)?;
     @Override
     public String visitReturn_statement(JavaGrParser.Return_statementContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -290,7 +281,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
             } else {
                 String x = pt.toString();
                 sb.append(pt);
-                if(x.equals("return")){
+                if (x.equals("return")) {
                     sb.append(" ");
                 }
 
@@ -344,7 +335,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //instruction_general: (instruction | COMMENT)*;
     @Override
     public String visitInstruction_general(JavaGrParser.Instruction_generalContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -367,7 +357,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //function_body: PARENT_L instruction_general PARENT_R;
     @Override
     public String visitFunction_body(JavaGrParser.Function_bodyContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -382,7 +371,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //function: (PUBLIC | PRIVATE_NEW_VAR | PROTECTED_NEW_VAR) STATIC_VAR? (datatype | VOID ) IDENTIFIER function_in function_body ;
     @Override
     public String visitFunction(JavaGrParser.FunctionContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -452,7 +440,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     }
 
-    //add_equals: ADD_ EQUAL;
     @Override
     public String visitAdd_equals(JavaGrParser.Add_equalsContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -464,7 +451,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //subtract_equals: SUBTRACT_ EQUAL;
     @Override
     public String visitSubtract_equals(JavaGrParser.Subtract_equalsContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -476,7 +462,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
 
     }
 
-    //multiply_equals: MULTIPLY EQUAL;
     @Override
     public String visitMultiply_equals(JavaGrParser.Multiply_equalsContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -488,7 +473,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //divide_equals: DIVIDE EQUAL;
     @Override
     public String visitDivide_equals(JavaGrParser.Divide_equalsContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -499,7 +483,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //modulo_equals: MODULO EQUAL;
     @Override
     public String visitModulo_equals(JavaGrParser.Modulo_equalsContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -509,12 +492,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //math_modification: add_equals
-//| subtract_equals
-//| multiply_equals
-//| divide_equals
-//| modulo_equals
-//| EQUAL;
+
     @Override
     public String visitMath_modification(JavaGrParser.Math_modificationContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -604,7 +582,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //add_double: ADD_ ADD_;
     @Override
     public String visitAdd_double(JavaGrParser.Add_doubleContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -615,7 +592,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //equal_double: EQUAL  EQUAL;
     @Override
     public String visitEqual_double(JavaGrParser.Equal_doubleContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -627,7 +603,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //subtract_double: SUBTRACT_ SUBTRACT_;
     @Override
     public String visitSubtract_double(JavaGrParser.Subtract_doubleContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -639,9 +614,7 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //modification: IDENTIFIER math_modification math_expr
-//| IDENTIFIER add_double
-//| IDENTIFIER subtract_double;
+
     @Override
     public String visitModification(JavaGrParser.ModificationContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -681,7 +654,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //comparison: num_val comparator num_val;
     @Override
     public String visitComparison(JavaGrParser.ComparisonContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -739,7 +711,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //while_loop: WHILE logic_condition PARENT_L instruction_general PARENT_R;
     @Override
     public String visitWhile_loop(JavaGrParser.While_loopContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -753,7 +724,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //do_while_loop: DO_ PARENT_L instruction_general PARENT_R WHILE logic_condition;
     @Override
     public String visitDo_while_loop(JavaGrParser.Do_while_loopContext ctx) {
         StringBuilder sb = new StringBuilder();
@@ -768,7 +738,6 @@ public class JavaVisitor extends JavaGrBaseVisitor<String> {
         return sb.toString();
     }
 
-    //for_loop: FOR BRACKET_L assignment SEMICOLON comparison SEMICOLON modification BRACKET_R PARENT_L instruction_general PARENT_R;
     @Override
     public String visitFor_loop(JavaGrParser.For_loopContext ctx) {
         StringBuilder sb = new StringBuilder();
