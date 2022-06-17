@@ -9,12 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-//./src/tests/test0.txt
-//./src/tests/test0_error.txt
-//./src/tests/test1.txt
-//./src/tests/test1_error.txt
-//./src/tests/test2.txt
-//./src/tests/test2_error.txt
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
